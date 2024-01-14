@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Auth Tutorial</string>
+
+    <!-- Register Activity -->
+    <string name="registered_successfully">Registered Successfully!</string>
+    <string name="error">Error!</string>
+</resources>

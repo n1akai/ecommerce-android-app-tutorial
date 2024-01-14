@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "444003079101",
+    "firebase_url": "https://tutorial-project-54ef2-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "tutorial-project-54ef2",
+    "storage_bucket": "tutorial-project-54ef2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:444003079101:android:55a30fea0fca9d201f78d4",
+        "android_client_info": {
+          "package_name": "com.n1akai.e_commercetutorial"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAgduC8T-gGmdGgx3nl92lfm516AAAWy9U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
