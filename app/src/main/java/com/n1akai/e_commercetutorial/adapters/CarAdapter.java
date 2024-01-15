@@ -17,10 +17,15 @@ import com.n1akai.e_commercetutorial.R;
 import com.n1akai.e_commercetutorial.models.Car;
 import com.n1akai.e_commercetutorial.models.Make;
 
-public class CarAdapter extends FirebaseRecyclerAdapter<Car, CarAdapter.CarViewHolder> {
+import java.util.List;
 
-    public CarAdapter(@NonNull FirebaseRecyclerOptions<Car> options) {
-        super(options);
+public class CarAdapter extends RecyclerView.Adapter<CarAdapter.CarViewHolder> {
+
+    OnCarClickListener listener;
+    List<Car> cars;
+
+    public CarAdapter(List<Car> cars) {
+        this.cars = cars;
     }
 
     class CarViewHolder extends RecyclerView.ViewHolder {
@@ -46,15 +51,33 @@ public class CarAdapter extends FirebaseRecyclerAdapter<Car, CarAdapter.CarViewH
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull CarViewHolder holder, int position, @NonNull Car car) {
-        FirebaseDatabase.getInstance().getReference("makers").child(car.getMake_id()).get().addOnCompleteListener(task -> {
-            Make make = task.getResult().getValue(Make.class);
-            holder.make.setText(make.getLabel());
-        });
-        holder.model.setText(car.getModel());
-        holder.year.setText(""+car.getYear());
-        holder.price.setText(""+car.getPrice());
-        Glide.with(holder.itemView).load(car.getImage()).into(holder.carImage);
+    public void onBindViewHolder(@NonNull CarViewHolder holder, int position) {
+        Car car = cars.get(position);
+        if (car != null) {
+            FirebaseDatabase.getInstance().getReference("makers").child(car.getMake_id()).get().addOnCompleteListener(task -> {
+                Make make = task.getResult().getValue(Make.class);
+                holder.make.setText(make.getLabel());
+            });
+            holder.model.setText(car.getModel());
+            holder.year.setText(""+car.getYear());
+            holder.price.setText(""+car.getPrice());
+            Glide.with(holder.itemView).load(car.getImage()).into(holder.carImage);
+            holder.itemView.setOnClickListener(v -> {
+                listener.onCarClick(car);
+            });
+        }
+    }
 
+    @Override
+    public int getItemCount() {
+        return cars.size();
+    }
+
+    public void setOnCarClickListener(OnCarClickListener listener) {
+        this.listener = listener;
+    }
+
+    public interface OnCarClickListener {
+        void onCarClick(Car car);
     }
 }

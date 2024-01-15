@@ -2,7 +2,9 @@ package com.n1akai.e_commercetutorial.models;
 
 import com.google.firebase.database.FirebaseDatabase;
 
-public class Car {
+import java.io.Serializable;
+
+public class Car implements Serializable {
     private String id, make_id, model, fuel, topSpeed;
     private int year;
     private double price;
