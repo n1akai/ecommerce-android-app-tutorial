@@ -236,6 +236,7 @@
         android:id="@+id/button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingVertical="12dp"
         android:layout_margin="8dp"
         android:text="Add to Cart"
         app:layout_constraintBottom_toBottomOf="parent"

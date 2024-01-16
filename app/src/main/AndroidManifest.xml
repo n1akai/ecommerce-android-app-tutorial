@@ -20,8 +20,7 @@
             android:parentActivityName=".activites.HomeActivity"/>
         <activity
             android:name=".activites.CreateCarActivity"
-            android:exported="false"
-            android:parentActivityName=".activites.HomeActivity" />
+            android:exported="false"/>
         <activity
             android:name=".activites.CreateMakeActivity"
             android:exported="false"

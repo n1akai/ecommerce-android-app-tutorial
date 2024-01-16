@@ -6,6 +6,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -84,5 +86,24 @@ public class CarDetailActivity extends AppCompatActivity {
             startActivity(i);
             finish();
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.cars_detail_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.car_edit) {
+            Intent i = new Intent(this, CreateCarActivity.class);
+            i.putExtra("car", car);
+            startActivity(i);
+        } else if (id == R.id.car_delete) {
+
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
