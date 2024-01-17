@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -11,8 +12,10 @@ import android.view.MenuItem;
 
 import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
@@ -31,6 +34,7 @@ public class CarDetailActivity extends AppCompatActivity {
     ActivityCarDetailBinding binding;
     List<Car> cars;
     Car car;
+    DatabaseReference mRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +42,8 @@ public class CarDetailActivity extends AppCompatActivity {
         binding = ActivityCarDetailBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-         car = (Car) getIntent().getSerializableExtra("car");
-
+        car = (Car) getIntent().getSerializableExtra("car");
+        mRef = FirebaseDatabase.getInstance().getReference();
         getSupportActionBar().setTitle(car.getModel());
 
         setDataToView();
@@ -62,7 +66,7 @@ public class CarDetailActivity extends AppCompatActivity {
     private void similarCars() {
         cars = new ArrayList<>();
         SimilarCarsAdapter adapter = new SimilarCarsAdapter(cars);
-        FirebaseDatabase.getInstance().getReference("cars").orderByChild("make_id").equalTo(car.getMake_id()).addValueEventListener(new ValueEventListener() {
+        mRef.child("cars").orderByChild("make_id").equalTo(car.getMake_id()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 cars.clear();
@@ -102,8 +106,32 @@ public class CarDetailActivity extends AppCompatActivity {
             i.putExtra("car", car);
             startActivity(i);
         } else if (id == R.id.car_delete) {
-
+            deleteDialog();
         }
         return super.onOptionsItemSelected(item);
     }
+
+    private void deleteDialog() {
+        new MaterialAlertDialogBuilder(this)
+                .setTitle("Delete Car")
+                .setMessage("Do you want to delete this car?")
+                .setPositiveButton("Yes", (dialog, which) -> {
+                    deleteCar();
+                })
+                .setNegativeButton("No", (dialog, which) -> {
+
+                })
+                .show();
+    }
+
+    private void deleteCar() {
+        mRef.child("cars").child(car.getId()).removeValue().addOnCompleteListener(task -> {
+            if(task.isSuccessful()) {
+                Utils.successToast(this, "Deleted successfully!");
+                finish();
+            } else {
+                Utils.errorToast(this, task.getException().getMessage());
+            }
+        });
+    };
 }
