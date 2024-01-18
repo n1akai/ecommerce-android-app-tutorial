@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Auth Tutorial</string>
+    <string name="app_name">Cars Store</string>
 
     <!-- Register Activity -->
     <string name="registered_successfully">Registered Successfully!</string>
